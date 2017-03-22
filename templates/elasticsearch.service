@@ -1,0 +1,16 @@
+[Unit]
+Description=elasticsearch
+After=network.target
+
+[Service]
+User={{elasticsearch_username}}
+Group={{elasticsearch_group}}
+Environment=JAVA_HOME={{JAVA_HOME}}
+Environment=ES_HOME={{elasticsearch_home}}
+Environment=MAX_OPEN_FILES={{elasticsearch_MAX_OPEN_FILES}}
+ExecStartPre=ulimit -n {{elasticsearch_MAX_OPEN_FILES}}
+ExecStart={{elasticsearch_home}}/bin/elasticsearch -p {{elasticsearch_pid_folder}}/{{elasticsearch_pid_file_name}}
+ExecStop=/usr/bin/kill `cat {{elasticsearch_pid_folder}}/elasticsearch_pid_file_name}}`
+
+[Install]
+WantedBy=multi-user.target
